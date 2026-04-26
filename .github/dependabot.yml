@@ -11,3 +11,7 @@ updates:
   schedule:
     interval: weekly
   open-pull-requests-limit: 5
+  ignore:
+    # Pinned to the crate's MSRV (Cargo.toml rust-version). Bumps must be
+    # made deliberately alongside an MSRV change, not by dependabot.
+    - dependency-name: "dtolnay/rust-toolchain"
