@@ -1,0 +1,27 @@
+{
+  "name": "workers-connectrpc-multi-integration-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "buf generate",
+    "prebuild:workers": "cargo install -q worker-build@^0.8",
+    "build:echo": "cd ../echo-worker && worker-build --release",
+    "build:gateway": "cd ../gateway-worker && worker-build --release",
+    "build:workers": "npm run build:echo && npm run build:gateway",
+    "pretest": "npm run generate && npm run build:workers",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:no-build": "vitest run"
+  },
+  "devDependencies": {
+    "@bufbuild/buf": "^1.50.0",
+    "@bufbuild/protobuf": "^2.2.0",
+    "@bufbuild/protoc-gen-es": "^2.2.0",
+    "@cloudflare/workers-types": "^4.20250109.0",
+    "@connectrpc/connect": "^2.0.0",
+    "@connectrpc/connect-web": "^2.0.0",
+    "miniflare": "^4.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

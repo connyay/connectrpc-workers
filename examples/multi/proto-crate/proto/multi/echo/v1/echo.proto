@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package multi.echo.v1;
+
+// Backend service hosted by `echo-worker`.
+service EchoService {
+  rpc Echo(EchoRequest) returns (EchoResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+}
+
+message EchoRequest {
+  string message = 1;
+}
+
+message EchoResponse {
+  string echoed = 1;
+  // Set by the echo worker so the gateway can prove the response really
+  // round-tripped through it (rather than being faked locally).
+  string served_by = 2;
+}

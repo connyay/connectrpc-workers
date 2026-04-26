@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package multi.gateway.v1;
+
+// Front-door service hosted by `gateway-worker`. Its handler internally
+// calls `EchoService.Echo` on the echo worker via a service binding.
+service GatewayService {
+  rpc Greet(GreetRequest) returns (GreetResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+}
+
+message GreetRequest {
+  string name = 1;
+}
+
+message GreetResponse {
+  // The greeting computed by the gateway, enriched with data from the
+  // upstream echo worker (proves the inter-service hop happened).
+  string greeting = 1;
+  // Forwarded from the upstream EchoResponse.served_by so tests can assert
+  // the response really came from `echo-worker`.
+  string upstream = 2;
+}

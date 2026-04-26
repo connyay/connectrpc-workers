@@ -1,0 +1,21 @@
+[package]
+name = "echo-worker"
+version = "0.1.0"
+publish = false
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+worker = { workspace = true }
+worker-macros = { workspace = true }
+connectrpc = { workspace = true }
+buffa = { workspace = true }
+http = { workspace = true }
+tower = { workspace = true }
+
+multi-proto = { workspace = true }

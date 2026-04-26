@@ -1,0 +1,78 @@
+[package]
+name = "connectrpc-workers"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+authors = ["Connor Hindley <conn.hindley@gmail.com>"]
+description = "ConnectRPC ClientTransport implementations backed by the Cloudflare Workers fetch APIs (service bindings + global fetch)."
+documentation = "https://docs.rs/connectrpc-workers"
+repository = "https://github.com/connyay/connectrpc-workers"
+homepage = "https://github.com/connyay/connectrpc-workers"
+readme = "README.md"
+keywords = ["connectrpc", "cloudflare", "workers", "wasm", "rpc"]
+categories = [
+    "wasm",
+    "asynchronous",
+    "web-programming",
+    "api-bindings",
+]
+license = "MIT"
+exclude = ["examples/*"]
+
+[dependencies]
+worker = { version = "0.8", features = ["http"] }
+connectrpc = { version = "0.3", default-features = false }
+http = "1"
+http-body = "1"
+bytes = "1"
+
+[workspace]
+members = [
+    "examples/multi/proto-crate",
+    "examples/multi/echo-worker",
+    "examples/multi/gateway-worker",
+]
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.88"
+authors = ["Connor Hindley <conn.hindley@gmail.com>"]
+license = "MIT"
+
+[workspace.dependencies]
+# Local crates
+connectrpc-workers = { path = "." }
+multi-proto = { path = "examples/multi/proto-crate" }
+
+# Cloudflare Workers
+worker = { version = "0.8", features = ["http"] }
+worker-macros = { version = "0.8", features = ["http"] }
+
+# ConnectRPC. `default-features = false` drops `zstd` + `streaming` (C bindings
+# / platform bits that won't link on wasm32-unknown-unknown). `gzip` stays —
+# it's pure-Rust via miniz_oxide. The `client` feature pulls in hyper-based
+# transports which we don't use, so leave it off.
+connectrpc = { version = "0.3", default-features = false, features = ["gzip"] }
+
+buffa = { version = "0.3", features = ["json"] }
+buffa-types = { version = "0.3", features = ["json"] }
+
+http = "1"
+http-body = "1"
+http-body-util = "0.1"
+bytes = { version = "1.5", features = ["serde"] }
+
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+futures = "0.3"
+tower = { version = "0.5", features = ["util"] }
+
+connectrpc-build = { version = "0.3" }
+
+# Profile tuned for shipping wasm: small + fast enough.
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
