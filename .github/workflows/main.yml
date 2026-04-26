@@ -39,8 +39,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       # Tests target the host: URI parsing + transport construction. The
       # JS-bound bits (FetcherTransport::send, FetchTransport::send) are
-      # exercised end-to-end by the example monorepo at
-      # https://github.com/connyay/workers-connectrpc-multi (vitest +
+      # exercised end-to-end by the example at examples/multi (vitest +
       # miniflare against compiled wasm bundles), not here.
       - run: cargo test --locked
 
