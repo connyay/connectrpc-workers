@@ -55,7 +55,7 @@ worker-macros = { version = "0.8", features = ["http"] }
 connectrpc = { version = "0.3", default-features = false, features = ["gzip"] }
 
 buffa = { version = "0.3", features = ["json"] }
-buffa-types = { version = "0.3", features = ["json"] }
+buffa-types = { version = "0.4", features = ["json"] }
 
 http = "1"
 http-body = "1"
