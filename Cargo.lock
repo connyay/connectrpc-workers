@@ -71,12 +71,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "buffa"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fe57265ac5858082bf9a450654fa56e97fceda045d3e573eed4c2d3cf0b8dc0f"
+dependencies = [
+ "base64",
+ "bytes",
+ "hashbrown 0.15.5",
+ "once_cell",
+ "serde",
+ "serde_json",
+ "thiserror",
+]
+
+[[package]]
 name = "buffa-codegen"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4f9ddcb25f0dde4d82e0a1128b0c459feba775e24dfa7cb0c3f4a9d61abfa245"
 dependencies = [
- "buffa",
+ "buffa 0.3.0",
  "buffa-descriptor",
  "prettyplease",
  "proc-macro2",
@@ -91,7 +106,7 @@ version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0a0794ed1f8a0c6ab168c70258e21cf74ca7b87a7dd888a0a69745b075f2d351"
 dependencies = [
- "buffa",
+ "buffa 0.3.0",
 ]
 
 [[package]]
@@ -100,7 +115,7 @@ version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b4d80c9929af9fcc673653b99f81c1d13aa32c2bb329bb1ef02ec533994389c6"
 dependencies = [
- "buffa",
+ "buffa 0.3.0",
  "serde",
  "serde_json",
  "thiserror",
@@ -163,7 +178,7 @@ checksum = "7e9191b8c90cfc0d27f3df209ea83fa1cb1f9b7e81480bc9d89661be41350778"
 dependencies = [
  "async-compression",
  "base64",
- "buffa",
+ "buffa 0.3.0",
  "bytes",
  "flate2",
  "futures",
@@ -188,7 +203,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "591bc832b8d3faef060e435f832a1cf10a71c865dfb49f9874247769b60ef816"
 dependencies = [
  "anyhow",
- "buffa",
+ "buffa 0.3.0",
  "buffa-codegen",
  "connectrpc-codegen",
  "tempfile",
@@ -201,7 +216,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "109a2352193792931d41e5cb3b048985371d5c6505f736f9b9a7ae606d5a0050"
 dependencies = [
  "anyhow",
- "buffa",
+ "buffa 0.3.0",
  "buffa-codegen",
  "heck",
  "prettyplease",
@@ -245,7 +260,7 @@ dependencies = [
 name = "echo-worker"
 version = "0.1.0"
 dependencies = [
- "buffa",
+ "buffa 0.4.0",
  "connectrpc",
  "http",
  "multi-proto",
@@ -393,7 +408,7 @@ dependencies = [
 name = "gateway-worker"
 version = "0.1.0"
 dependencies = [
- "buffa",
+ "buffa 0.4.0",
  "connectrpc",
  "connectrpc-workers",
  "http",
@@ -666,7 +681,7 @@ dependencies = [
 name = "multi-proto"
 version = "0.1.0"
 dependencies = [
- "buffa",
+ "buffa 0.4.0",
  "buffa-types",
  "bytes",
  "connectrpc",

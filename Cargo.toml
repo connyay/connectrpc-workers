@@ -54,7 +54,7 @@ worker-macros = { version = "0.8", features = ["http"] }
 # transports which we don't use, so leave it off.
 connectrpc = { version = "0.3", default-features = false, features = ["gzip"] }
 
-buffa = { version = "0.3", features = ["json"] }
+buffa = { version = "0.4", features = ["json"] }
 buffa-types = { version = "0.3", features = ["json"] }
 
 http = "1"
