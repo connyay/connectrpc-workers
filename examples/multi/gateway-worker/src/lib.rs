@@ -5,12 +5,15 @@
 //! This is the e2e proof of inter-service ConnectRPC over Cloudflare Workers
 //! fetch.
 
+#![allow(refining_impl_trait)]
+
 use std::sync::Arc;
 
 use connectrpc::Protocol;
 use connectrpc::client::ClientConfig;
 use connectrpc::{
-    ConnectError, ConnectRpcBody, ConnectRpcService, Context as RpcContext, Router as RpcRouter,
+    ConnectError, ConnectRpcBody, ConnectRpcService, RequestContext, Response, Router as RpcRouter,
+    ServiceResult,
 };
 use tower::Service;
 use worker::{Context, Env, HttpRequest, event};
@@ -19,7 +22,8 @@ use buffa::view::OwnedView;
 use connectrpc_workers::FetcherTransport;
 use multi_proto::echo::v1::{EchoRequest, EchoServiceClient};
 use multi_proto::gateway::v1::{
-    GatewayService, GatewayServiceExt, GreetRequestView, GreetResponse,
+    CollectRequestView, CollectResponse, GatewayService, GatewayServiceExt, GreetRequestView,
+    GreetResponse,
 };
 
 /// Service-binding name in `wrangler.toml` for the upstream echo worker.
@@ -47,9 +51,9 @@ impl GatewayImpl {
 impl GatewayService for GatewayImpl {
     async fn greet(
         &self,
-        ctx: RpcContext,
+        _ctx: RequestContext,
         request: OwnedView<GreetRequestView<'static>>,
-    ) -> Result<(GreetResponse, RpcContext), ConnectError> {
+    ) -> ServiceResult<GreetResponse> {
         let name = if request.name.is_empty() {
             "world"
         } else {
@@ -66,14 +70,41 @@ impl GatewayService for GatewayImpl {
             .map_err(|e| ConnectError::unavailable(format!("upstream echo call failed: {e}")))?;
 
         let response = upstream.into_owned();
-        Ok((
-            GreetResponse {
-                greeting: response.echoed,
-                upstream: response.served_by,
+        Response::ok(GreetResponse {
+            greeting: response.echoed,
+            upstream: response.served_by,
+            ..Default::default()
+        })
+    }
+
+    async fn collect_echoes(
+        &self,
+        _ctx: RequestContext,
+        request: OwnedView<CollectRequestView<'static>>,
+    ) -> ServiceResult<CollectResponse> {
+        let messages: Vec<EchoRequest> = request
+            .messages
+            .iter()
+            .map(|m| EchoRequest {
+                message: m.to_string(),
                 ..Default::default()
-            },
-            ctx,
-        ))
+            })
+            .collect();
+
+        let upstream = self
+            .echo
+            .collect(messages)
+            .await
+            .map_err(|e| {
+                ConnectError::unavailable(format!("upstream collect call failed: {e}"))
+            })?;
+
+        let response = upstream.into_owned();
+        Response::ok(CollectResponse {
+            combined: response.echoed,
+            upstream: response.served_by,
+            ..Default::default()
+        })
     }
 }
 

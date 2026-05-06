@@ -1,10 +1,14 @@
 //! Backend worker that serves `EchoService` over ConnectRPC.
 
+#![allow(refining_impl_trait)]
+
 use std::sync::Arc;
 
 use connectrpc::{
-    ConnectError, ConnectRpcBody, ConnectRpcService, Context as RpcContext, Router as RpcRouter,
+    ConnectRpcBody, ConnectRpcService, RequestContext, Response, Router as RpcRouter, ServiceResult,
+    ServiceStream,
 };
+use futures::StreamExt;
 use tower::Service;
 use worker::{Context, Env, HttpRequest, event};
 
@@ -18,17 +22,31 @@ struct EchoImpl;
 impl EchoService for EchoImpl {
     async fn echo(
         &self,
-        ctx: RpcContext,
+        _ctx: RequestContext,
         request: OwnedView<EchoRequestView<'static>>,
-    ) -> Result<(EchoResponse, RpcContext), ConnectError> {
-        Ok((
-            EchoResponse {
-                echoed: request.message.to_string(),
-                served_by: SERVED_BY.into(),
-                ..Default::default()
-            },
-            ctx,
-        ))
+    ) -> ServiceResult<EchoResponse> {
+        Response::ok(EchoResponse {
+            echoed: request.message.to_string(),
+            served_by: SERVED_BY.into(),
+            ..Default::default()
+        })
+    }
+
+    async fn collect(
+        &self,
+        _ctx: RequestContext,
+        mut requests: ServiceStream<OwnedView<EchoRequestView<'static>>>,
+    ) -> ServiceResult<EchoResponse> {
+        let mut parts = Vec::new();
+        while let Some(req) = requests.next().await {
+            let req = req?;
+            parts.push(req.message.to_string());
+        }
+        Response::ok(EchoResponse {
+            echoed: parts.join(", "),
+            served_by: SERVED_BY.into(),
+            ..Default::default()
+        })
     }
 }
 

@@ -8,6 +8,10 @@ service GatewayService {
   rpc Greet(GreetRequest) returns (GreetResponse) {
     option idempotency_level = NO_SIDE_EFFECTS;
   }
+
+  // Accepts a list of messages, client-streams them to the upstream echo
+  // worker's Collect RPC, and returns the combined result.
+  rpc CollectEchoes(CollectRequest) returns (CollectResponse) {}
 }
 
 message GreetRequest {
@@ -20,5 +24,14 @@ message GreetResponse {
   string greeting = 1;
   // Forwarded from the upstream EchoResponse.served_by so tests can assert
   // the response really came from `echo-worker`.
+  string upstream = 2;
+}
+
+message CollectRequest {
+  repeated string messages = 1;
+}
+
+message CollectResponse {
+  string combined = 1;
   string upstream = 2;
 }

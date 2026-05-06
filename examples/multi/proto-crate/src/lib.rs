@@ -11,7 +11,7 @@ mod generated {
     // `connectrpc-build` unified mode emits `super::`-relative paths inside
     // each generated `pub mod`, so the include must live inside a module
     // (not at the crate root) to give `super::*` something to resolve to.
-    include!(concat!(env!("OUT_DIR"), "/_connectrpc.rs"));
+    connectrpc::include_generated!();
 }
 
 pub use generated::multi::*;

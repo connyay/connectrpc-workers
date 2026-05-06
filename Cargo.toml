@@ -21,7 +21,7 @@ exclude = ["examples/*"]
 
 [dependencies]
 worker = { version = "0.8", features = ["http"] }
-connectrpc = { version = "0.3", default-features = false }
+connectrpc = { version = "0.4", default-features = false }
 http = "1"
 http-body = "1"
 bytes = "1"
@@ -52,10 +52,9 @@ worker-macros = { version = "0.8", features = ["http"] }
 # / platform bits that won't link on wasm32-unknown-unknown). `gzip` stays —
 # it's pure-Rust via miniz_oxide. The `client` feature pulls in hyper-based
 # transports which we don't use, so leave it off.
-connectrpc = { version = "0.3", default-features = false, features = ["gzip"] }
+connectrpc = { version = "0.4", default-features = false, features = ["gzip"] }
 
-buffa = { version = "0.3", features = ["json"] }
-buffa-types = { version = "0.3", features = ["json"] }
+buffa = { version = "0.5", features = ["json"] }
 
 http = "1"
 http-body = "1"
@@ -68,7 +67,7 @@ serde_json = "1"
 futures = "0.3"
 tower = { version = "0.5", features = ["util"] }
 
-connectrpc-build = { version = "0.3" }
+connectrpc-build = { version = "0.4" }
 
 # Profile tuned for shipping wasm: small + fast enough.
 [profile.release]

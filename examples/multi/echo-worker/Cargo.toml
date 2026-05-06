@@ -17,5 +17,6 @@ connectrpc = { workspace = true }
 buffa = { workspace = true }
 http = { workspace = true }
 tower = { workspace = true }
+futures = { workspace = true }
 
 multi-proto = { workspace = true }

@@ -7,6 +7,9 @@ service EchoService {
   rpc Echo(EchoRequest) returns (EchoResponse) {
     option idempotency_level = NO_SIDE_EFFECTS;
   }
+
+  // Client streaming: collect all request messages, return concatenated data.
+  rpc Collect(stream EchoRequest) returns (EchoResponse);
 }
 
 message EchoRequest {

@@ -32,3 +32,37 @@ describe("GatewayService.greet (e2e via service binding)", () => {
     expect(res.upstream).toBe("echo-worker");
   });
 });
+
+describe("GatewayService.collectEchoes (client streaming via service binding)", () => {
+  it("collects multiple messages via upstream client stream", async () => {
+    const client = gatewayClient();
+    const res = await client.collectEchoes({
+      messages: ["alpha", "bravo", "charlie"],
+    });
+    expect(res.combined).toBe("alpha, bravo, charlie");
+    expect(res.upstream).toBe("echo-worker");
+  });
+
+  it("handles a single message", async () => {
+    const client = gatewayClient();
+    const res = await client.collectEchoes({ messages: ["solo"] });
+    expect(res.combined).toBe("solo");
+    expect(res.upstream).toBe("echo-worker");
+  });
+
+  it("handles empty message list", async () => {
+    const client = gatewayClient();
+    const res = await client.collectEchoes({ messages: [] });
+    expect(res.combined).toBe("");
+    expect(res.upstream).toBe("echo-worker");
+  });
+
+  it("works over the JSON codec", async () => {
+    const client = gatewayClient({ useBinaryFormat: false });
+    const res = await client.collectEchoes({
+      messages: ["one", "two"],
+    });
+    expect(res.combined).toBe("one, two");
+    expect(res.upstream).toBe("echo-worker");
+  });
+});
