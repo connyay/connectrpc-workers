@@ -95,7 +95,7 @@ jobs:
       - name: Verify tag matches Cargo.toml version
         run: |
           TAG="${GITHUB_REF#refs/tags/v}"
-          VERSION=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version')
+          VERSION=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[] | select(.name == "connectrpc-workers") | .version')
           if [ "$TAG" != "$VERSION" ]; then
             echo "::error::Tag v$TAG does not match Cargo.toml version $VERSION"
             exit 1
