@@ -91,11 +91,8 @@ impl GatewayService for GatewayImpl {
             })
             .collect();
 
-        let upstream = self
-            .echo
-            .collect(messages)
-            .await
-            .map_err(|e| {
+        let upstream =
+            self.echo.collect(messages).await.map_err(|e| {
                 ConnectError::unavailable(format!("upstream collect call failed: {e}"))
             })?;
 

@@ -5,8 +5,8 @@
 use std::sync::Arc;
 
 use connectrpc::{
-    ConnectRpcBody, ConnectRpcService, RequestContext, Response, Router as RpcRouter, ServiceResult,
-    ServiceStream,
+    ConnectRpcBody, ConnectRpcService, RequestContext, Response, Router as RpcRouter,
+    ServiceResult, ServiceStream,
 };
 use futures::StreamExt;
 use tower::Service;
