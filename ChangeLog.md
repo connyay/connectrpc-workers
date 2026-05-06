@@ -1,5 +1,13 @@
 # connectrpc-workers Change Log
 
+## Version 0.2.0 - 2026-05-06
+
+- Bump `connectrpc` dependency from 0.3 to 0.4 and `buffa` from 0.3 to 0.5.
+- Client streaming now works end-to-end on Workers. The multi-worker example
+  exercises this: the gateway's `CollectEchoes` RPC client-streams messages to
+  the echo worker's `Collect` RPC via a service binding, verified by
+  vitest + miniflare integration tests.
+
 ## Version 0.1.0 - 2026-04-26
 
 Initial release.
