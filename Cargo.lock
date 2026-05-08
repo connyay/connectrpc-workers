@@ -172,9 +172,9 @@ dependencies = [
 
 [[package]]
 name = "connectrpc-build"
-version = "0.4.0"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e685634b5cabe1fbd3698d5da7dcae512152a1b7e5128eff6493920cf83b72f8"
+checksum = "42006d1d71a926e4f021dbd7eed2675eb1ee9ad9892a662c81e626e23024c0c9"
 dependencies = [
  "anyhow",
  "buffa",
