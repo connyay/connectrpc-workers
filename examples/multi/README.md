@@ -23,13 +23,12 @@ workspace root) and builds a `FetcherTransport` from a service binding
 declared in its `wrangler.toml`:
 
 ```rust
-use connectrpc::Protocol;
 use connectrpc::client::ClientConfig;
 use connectrpc_workers::FetcherTransport;
 use multi_proto::echo::v1::EchoServiceClient;
 
 let transport = FetcherTransport::new(env.service("ECHO")?);
-let config = ClientConfig::new("http://echo/".parse()?).protocol(Protocol::Connect);
+let config = ClientConfig::new("http://echo/".parse()?);
 let echo = EchoServiceClient::new(transport, config);
 let resp = echo.echo(EchoRequest { message: "hi".into(), ..Default::default() }).await?;
 ```

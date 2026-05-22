@@ -32,13 +32,12 @@
 //!
 //! ```ignore
 //! use connectrpc::client::ClientConfig;
-//! use connectrpc::Protocol;
 //! use connectrpc_workers::FetcherTransport;
 //!
 //! // Inside a #[event(fetch)] handler:
 //! let echo = env.service("ECHO")?;
 //! let transport = FetcherTransport::new(echo);
-//! let config = ClientConfig::new("http://echo/".parse()?).protocol(Protocol::Connect);
+//! let config = ClientConfig::new("http://echo/".parse()?);
 //! let client = EchoServiceClient::new(transport, config);
 //! let resp = client.echo(EchoRequest { message: "hi".into() }).await?;
 //! ```
