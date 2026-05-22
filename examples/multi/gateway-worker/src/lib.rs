@@ -9,7 +9,6 @@
 
 use std::sync::Arc;
 
-use connectrpc::Protocol;
 use connectrpc::client::ClientConfig;
 use connectrpc::{
     ConnectError, ConnectRpcBody, ConnectRpcService, RequestContext, Response, Router as RpcRouter,
@@ -41,7 +40,7 @@ struct GatewayImpl {
 impl GatewayImpl {
     fn new(env: &Env) -> worker::Result<Self> {
         let transport = FetcherTransport::new(env.service(ECHO_BINDING)?);
-        let config = ClientConfig::new(ECHO_BASE_URI.parse().unwrap()).protocol(Protocol::Connect);
+        let config = ClientConfig::new(ECHO_BASE_URI.parse().unwrap());
         Ok(Self {
             echo: EchoServiceClient::new(transport, config),
         })
