@@ -30,6 +30,7 @@ bytes = "1"
 members = [
     "examples/multi/proto-crate",
     "examples/multi/echo-worker",
+    "examples/multi/echo-do-worker",
     "examples/multi/gateway-worker",
 ]
 
@@ -66,6 +67,8 @@ serde_json = "1"
 
 futures = "0.3"
 tower = { version = "0.5", features = ["util"] }
+
+wasm-bindgen = "0.2"
 
 connectrpc-build = { version = "0.6" }
 

@@ -1,0 +1,15 @@
+name = "echo-do-worker"
+main = "build/index.js"
+compatibility_date = "2026-04-22"
+
+[build]
+command = "cargo install -q \"worker-build@^0.8\" && worker-build --release"
+
+[durable_objects]
+bindings = [
+  { name = "ECHO_DO", class_name = "EchoDO" }
+]
+
+[[migrations]]
+tag = "v1"
+new_classes = ["EchoDO"]

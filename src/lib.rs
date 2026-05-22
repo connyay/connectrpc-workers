@@ -7,6 +7,8 @@
 //!   binding). Use it for inter-service calls within the same Cloudflare
 //!   zone. The runtime short-circuits these requests, so there's no DNS
 //!   lookup, no TLS handshake, and no trip out to the public internet.
+//!   It also supports Durable Object stubs via [`FetcherTransport::from_stub`],
+//!   because `DurableObjectStub` extends `Fetcher` in the Workers runtime.
 //! * [`FetchTransport`] wraps the global [`worker::Fetch`] for arbitrary
 //!   `http://` / `https://` URLs.
 //!
@@ -45,7 +47,7 @@ use connectrpc::client::{BoxFuture, ClientBody, ClientTransport};
 use http::uri::{Authority, PathAndQuery, Scheme};
 use http::{Request, Response, Uri};
 use worker::send::{SendFuture, SendWrapper};
-use worker::{Body, Fetch, Fetcher};
+use worker::{Body, Fetch, Fetcher, Stub};
 
 /// `ClientTransport` backed by a Workers service binding.
 ///
@@ -61,6 +63,24 @@ impl FetcherTransport {
         Self {
             fetcher: SendWrapper::new(fetcher),
         }
+    }
+
+    /// Create a transport from a Durable Object [`Stub`].
+    ///
+    /// In the Workers runtime a `DurableObjectStub` extends `Fetcher`, so
+    /// the underlying JS object supports the same `fetch()` API. This
+    /// method casts the stub to a [`Fetcher`] via [`Stub::into_rpc`] and
+    /// wraps it in a [`FetcherTransport`].
+    ///
+    /// ```ignore
+    /// let ns = env.durable_object("MY_DO")?;
+    /// let stub = ns.get_by_name("instance-1")?;
+    /// let transport = FetcherTransport::from_stub(stub);
+    /// let config = ClientConfig::new("http://my-do/".parse()?);
+    /// let client = MyServiceClient::new(transport, config);
+    /// ```
+    pub fn from_stub(stub: Stub) -> Self {
+        Self::new(stub.into_rpc())
     }
 }
 

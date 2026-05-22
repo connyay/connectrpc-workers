@@ -11,3 +11,10 @@ command = "cargo install -q \"worker-build@^0.8\" && worker-build --release"
 [[services]]
 binding = "ECHO"
 service = "echo-worker"
+
+# Durable Object namespace binding: the gateway calls EchoDO via a stub
+# that gets cast to a Fetcher for use with FetcherTransport.
+[durable_objects]
+bindings = [
+  { name = "ECHO_DO", class_name = "EchoDO", script_name = "echo-do-worker" }
+]

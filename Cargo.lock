@@ -234,6 +234,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "echo-do-worker"
+version = "0.1.0"
+dependencies = [
+ "buffa",
+ "connectrpc",
+ "futures",
+ "http",
+ "multi-proto",
+ "tower",
+ "wasm-bindgen",
+ "worker",
+ "worker-macros",
+]
+
+[[package]]
 name = "echo-worker"
 version = "0.1.0"
 dependencies = [

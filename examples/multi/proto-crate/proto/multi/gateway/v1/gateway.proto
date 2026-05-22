@@ -9,6 +9,12 @@ service GatewayService {
     option idempotency_level = NO_SIDE_EFFECTS;
   }
 
+  // Same as Greet, but the upstream call goes to an EchoService hosted
+  // inside a Durable Object instead of a plain service-binding worker.
+  rpc GreetViaDO(GreetRequest) returns (GreetResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
   // Accepts a list of messages, client-streams them to the upstream echo
   // worker's Collect RPC, and returns the combined result.
   rpc CollectEchoes(CollectRequest) returns (CollectResponse) {}

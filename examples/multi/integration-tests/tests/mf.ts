@@ -1,8 +1,11 @@
 /**
- * Miniflare bootstrap wiring `gateway-worker` → `echo-worker` via a service
- * binding named `ECHO`. Tests dispatch fetches at the gateway; its handler
- * internally calls the echo worker over the binding using the Rust
- * `FetcherTransport`.
+ * Miniflare bootstrap wiring:
+ *   - `gateway-worker` → `echo-worker` via a service binding (`ECHO`)
+ *   - `gateway-worker` → `echo-do-worker` via a DO namespace binding (`ECHO_DO`)
+ *   - `echo-do-worker` hosts the `EchoDO` Durable Object class
+ *
+ * Tests dispatch fetches at the gateway; its handlers internally call the
+ * upstream echo services using the Rust `FetcherTransport`.
  */
 
 import { Miniflare } from "miniflare";
@@ -23,6 +26,7 @@ function loadWorker(name: string) {
 
 const echo = loadWorker("echo-worker");
 const gateway = loadWorker("gateway-worker");
+const echoDo = loadWorker("echo-do-worker");
 
 export const mf = new Miniflare({
   workers: [
@@ -34,8 +38,13 @@ export const mf = new Miniflare({
       ],
       compatibilityDate: "2026-04-22",
       // The Rust gateway looks up `env.service("ECHO")`. Miniflare wires
-      // that to the second worker registered in this array.
+      // that to the echo-worker registered below.
       serviceBindings: { ECHO: "echo-worker" },
+      // DO namespace binding: the gateway calls `env.durable_object("ECHO_DO")`
+      // to get a stub, which it casts to a Fetcher for FetcherTransport.
+      durableObjects: {
+        ECHO_DO: { className: "EchoDO", scriptName: "echo-do-worker" },
+      },
     },
     {
       name: "echo-worker",
@@ -44,6 +53,18 @@ export const mf = new Miniflare({
         { type: "CompiledWasm", path: "index_bg.wasm", contents: echo.wasm },
       ],
       compatibilityDate: "2026-04-22",
+    },
+    {
+      name: "echo-do-worker",
+      modules: [
+        { type: "ESModule", path: "index.js", contents: echoDo.js },
+        { type: "CompiledWasm", path: "index_bg.wasm", contents: echoDo.wasm },
+      ],
+      compatibilityDate: "2026-04-22",
+      // Local DO binding so the outer fetch handler can route into the DO.
+      durableObjects: {
+        ECHO_DO: "EchoDO",
+      },
     },
   ],
 });

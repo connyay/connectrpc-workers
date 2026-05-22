@@ -1,9 +1,12 @@
-//! Front-door worker. Serves `GatewayService.Greet`; the handler internally
-//! calls `EchoService.Echo` on `echo-worker` over a service binding using
-//! the `connectrpc-workers::FetcherTransport`.
+//! Front-door worker. Serves `GatewayService`; handlers internally call
+//! `EchoService.Echo` on upstream workers using `FetcherTransport`.
+//!
+//! * `Greet` — calls `echo-worker` over a **service binding**.
+//! * `GreetViaDO` — calls `EchoDO` (a Durable Object in `echo-do-worker`)
+//!   via a DO stub cast to a `Fetcher` with [`FetcherTransport::from_stub`].
 //!
 //! This is the e2e proof of inter-service ConnectRPC over Cloudflare Workers
-//! fetch.
+//! fetch, including Durable Objects.
 
 #![allow(refining_impl_trait)]
 
@@ -28,6 +31,9 @@ use multi_proto::gateway::v1::{
 /// Service-binding name in `wrangler.toml` for the upstream echo worker.
 const ECHO_BINDING: &str = "ECHO";
 
+/// DO namespace binding name for the upstream EchoDO Durable Object.
+const ECHO_DO_BINDING: &str = "ECHO_DO";
+
 /// Sentinel base URI for the echo client. The authority is irrelevant for
 /// service-binding fetches — the runtime routes via the binding, not DNS —
 /// but ConnectRPC needs a syntactically-valid base URI for path construction.
@@ -35,15 +41,32 @@ const ECHO_BASE_URI: &str = "http://echo/";
 
 struct GatewayImpl {
     echo: EchoServiceClient<FetcherTransport>,
+    env: Env,
 }
 
 impl GatewayImpl {
-    fn new(env: &Env) -> worker::Result<Self> {
+    fn new(env: Env) -> worker::Result<Self> {
         let transport = FetcherTransport::new(env.service(ECHO_BINDING)?);
         let config = ClientConfig::new(ECHO_BASE_URI.parse().unwrap());
+
         Ok(Self {
             echo: EchoServiceClient::new(transport, config),
+            env,
         })
+    }
+
+    fn echo_do_client(&self) -> Result<EchoServiceClient<FetcherTransport>, ConnectError> {
+        let namespace = self
+            .env
+            .durable_object(ECHO_DO_BINDING)
+            .map_err(|e| ConnectError::unavailable(format!("ECHO_DO binding: {e}")))?;
+        let stub = namespace
+            .get_by_name("singleton")
+            .map_err(|e| ConnectError::unavailable(format!("ECHO_DO stub: {e}")))?;
+        Ok(EchoServiceClient::new(
+            FetcherTransport::from_stub(stub),
+            ClientConfig::new(ECHO_BASE_URI.parse().unwrap()),
+        ))
     }
 }
 
@@ -67,6 +90,34 @@ impl GatewayService for GatewayImpl {
             })
             .await
             .map_err(|e| ConnectError::unavailable(format!("upstream echo call failed: {e}")))?;
+
+        let response = upstream.into_owned();
+        Response::ok(GreetResponse {
+            greeting: response.echoed,
+            upstream: response.served_by,
+            ..Default::default()
+        })
+    }
+
+    async fn greet_via_do(
+        &self,
+        _ctx: RequestContext,
+        request: OwnedView<GreetRequestView<'static>>,
+    ) -> ServiceResult<GreetResponse> {
+        let name = if request.name.is_empty() {
+            "world"
+        } else {
+            request.name
+        };
+
+        let echo_do = self.echo_do_client()?;
+        let upstream = echo_do
+            .echo(EchoRequest {
+                message: format!("Hello, {name}!"),
+                ..Default::default()
+            })
+            .await
+            .map_err(|e| ConnectError::unavailable(format!("upstream echo-do call failed: {e}")))?;
 
         let response = upstream.into_owned();
         Response::ok(GreetResponse {
@@ -110,7 +161,7 @@ async fn fetch(
     env: Env,
     _ctx: Context,
 ) -> worker::Result<http::Response<ConnectRpcBody>> {
-    let gateway = GatewayImpl::new(&env)?;
+    let gateway = GatewayImpl::new(env)?;
     let router = Arc::new(gateway).register(RpcRouter::new());
     let mut svc = ConnectRpcService::new(router);
     Ok(svc.call(req).await.unwrap())
