@@ -147,9 +147,9 @@ checksum = "cc14f565cf027a105f7a44ccf9e5b424348421a1d8952a8fc9d499d313107789"
 
 [[package]]
 name = "connectrpc"
-version = "0.6.0"
+version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3382e121377f6c160bbbe56f5809637ccbabff7edbf56bb8e96cc64e65998045"
+checksum = "1da5e4adde184f69e64ef112c6f8b645afe9ff82466761f8fc348dbd36aaee7e"
 dependencies = [
  "async-compression",
  "async-trait",
