@@ -100,11 +100,11 @@ dependencies = [
 
 [[package]]
 name = "buffa-codegen"
-version = "0.6.0"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "693ea91be01336fb0084b2e7bb071be7393224c72f737c846471e4013e58c327"
+checksum = "855364959e603cad456c1656bcf57f431ae6e5b4d4e4f166f7d594df882b6218"
 dependencies = [
- "buffa 0.6.0",
+ "buffa 0.7.1",
  "buffa-descriptor",
  "prettyplease",
  "proc-macro2",
@@ -115,11 +115,11 @@ dependencies = [
 
 [[package]]
 name = "buffa-descriptor"
-version = "0.6.0"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ad8df83adfcb525621f5a96c88e610f90aff1112ec57522d9b48a943df327394"
+checksum = "f74c0bf128c53f22b0fc3c1e8e66969cd21375879061293fd4e5298e839099a9"
 dependencies = [
- "buffa 0.6.0",
+ "buffa 0.7.1",
  "serde",
  "serde_json",
 ]
@@ -233,12 +233,12 @@ dependencies = [
 
 [[package]]
 name = "connectrpc-build"
-version = "0.6.1"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ef0a867ba86814d6a8f85e5784e1c89c2f3340c59f95625e0de97a587a4a1e4a"
+checksum = "e5d70e6771939f6cb0943d7672929c9eed2f735cbdce219040cffb09ec5bbf9f"
 dependencies = [
  "anyhow",
- "buffa 0.6.0",
+ "buffa 0.7.1",
  "buffa-codegen",
  "connectrpc-codegen",
  "tempfile",
@@ -246,12 +246,12 @@ dependencies = [
 
 [[package]]
 name = "connectrpc-codegen"
-version = "0.6.1"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "20923a890d45f23df73ad0af5d40b0a0784e7c43993d78a9264a1a1d03983a66"
+checksum = "02bca5ca0b62a25e3b41dd8c021e62aa1c8151f51b6258c2aa44f5bd83fded7b"
 dependencies = [
  "anyhow",
- "buffa 0.6.0",
+ "buffa 0.7.1",
  "buffa-codegen",
  "heck",
  "prettyplease",
