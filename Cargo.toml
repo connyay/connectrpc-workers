@@ -53,7 +53,7 @@ worker-macros = { version = "0.8", features = ["http"] }
 # / platform bits that won't link on wasm32-unknown-unknown). `gzip` stays —
 # it's pure-Rust via miniz_oxide. The `client` feature pulls in hyper-based
 # transports which we don't use, so leave it off.
-connectrpc = { version = "0.6", default-features = false, features = ["gzip"] }
+connectrpc = { version = "0.7", default-features = false, features = ["gzip"] }
 
 buffa = { version = "0.7", features = ["json"] }
 

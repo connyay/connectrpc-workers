@@ -209,10 +209,36 @@ version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1da5e4adde184f69e64ef112c6f8b645afe9ff82466761f8fc348dbd36aaee7e"
 dependencies = [
- "async-compression",
  "async-trait",
  "base64",
  "buffa 0.6.0",
+ "bytes",
+ "futures",
+ "http",
+ "http-body",
+ "http-body-util",
+ "percent-encoding",
+ "pin-project",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "tokio",
+ "tokio-util",
+ "tower",
+ "tracing",
+ "wasm-bindgen-futures",
+]
+
+[[package]]
+name = "connectrpc"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "003fac88ace432fd8e6adbe13da8b20e90613b89e70c72186c505ad1bea307b2"
+dependencies = [
+ "async-compression",
+ "async-trait",
+ "base64",
+ "buffa 0.7.1",
  "bytes",
  "flate2",
  "futures",
@@ -265,7 +291,7 @@ name = "connectrpc-workers"
 version = "0.3.1"
 dependencies = [
  "bytes",
- "connectrpc",
+ "connectrpc 0.6.1",
  "http",
  "http-body",
  "worker",
@@ -296,7 +322,7 @@ name = "echo-do-worker"
 version = "0.1.0"
 dependencies = [
  "buffa 0.7.1",
- "connectrpc",
+ "connectrpc 0.7.0",
  "futures",
  "http",
  "multi-proto",
@@ -311,7 +337,7 @@ name = "echo-worker"
 version = "0.1.0"
 dependencies = [
  "buffa 0.7.1",
- "connectrpc",
+ "connectrpc 0.7.0",
  "futures",
  "http",
  "multi-proto",
@@ -470,7 +496,7 @@ name = "gateway-worker"
 version = "0.1.0"
 dependencies = [
  "buffa 0.7.1",
- "connectrpc",
+ "connectrpc 0.7.0",
  "connectrpc-workers",
  "http",
  "multi-proto",
@@ -744,7 +770,7 @@ version = "0.1.0"
 dependencies = [
  "buffa 0.7.1",
  "bytes",
- "connectrpc",
+ "connectrpc 0.7.0",
  "connectrpc-build",
  "http",
  "http-body",
