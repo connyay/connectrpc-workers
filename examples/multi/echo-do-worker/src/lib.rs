@@ -13,14 +13,13 @@ use std::sync::Arc;
 
 use connectrpc::{
     ConnectRpcBody, ConnectRpcService, RequestContext, Response, Router as RpcRouter,
-    ServiceResult, ServiceStream,
+    ServiceRequest, ServiceResult, ServiceStream, StreamMessage,
 };
 use futures::StreamExt;
 use tower::Service;
 use worker::{Context, DurableObject, Env, Fetcher, HttpRequest, State, durable_object, event};
 
-use buffa::view::OwnedView;
-use multi_proto::echo::v1::{EchoRequestView, EchoResponse, EchoService, EchoServiceExt};
+use multi_proto::echo::v1::{EchoRequest, EchoResponse, EchoService, EchoServiceExt};
 
 const SERVED_BY: &str = "echo-do";
 
@@ -30,7 +29,7 @@ impl EchoService for EchoImpl {
     async fn echo(
         &self,
         _ctx: RequestContext,
-        request: OwnedView<EchoRequestView<'static>>,
+        request: ServiceRequest<'_, EchoRequest>,
     ) -> ServiceResult<EchoResponse> {
         Response::ok(EchoResponse {
             echoed: request.message.to_string(),
@@ -42,12 +41,12 @@ impl EchoService for EchoImpl {
     async fn collect(
         &self,
         _ctx: RequestContext,
-        mut requests: ServiceStream<OwnedView<EchoRequestView<'static>>>,
+        mut requests: ServiceStream<StreamMessage<EchoRequest>>,
     ) -> ServiceResult<EchoResponse> {
         let mut parts = Vec::new();
         while let Some(req) = requests.next().await {
             let req = req?;
-            parts.push(req.message.to_string());
+            parts.push(req.message().to_string());
         }
         Response::ok(EchoResponse {
             echoed: parts.join(", "),

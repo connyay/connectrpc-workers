@@ -15,17 +15,15 @@ use std::sync::Arc;
 use connectrpc::client::ClientConfig;
 use connectrpc::{
     ConnectError, ConnectRpcBody, ConnectRpcService, RequestContext, Response, Router as RpcRouter,
-    ServiceResult,
+    ServiceRequest, ServiceResult,
 };
 use tower::Service;
 use worker::{Context, Env, HttpRequest, event};
 
-use buffa::view::OwnedView;
 use connectrpc_workers::FetcherTransport;
 use multi_proto::echo::v1::{EchoRequest, EchoServiceClient};
 use multi_proto::gateway::v1::{
-    CollectRequestView, CollectResponse, GatewayService, GatewayServiceExt, GreetRequestView,
-    GreetResponse,
+    CollectRequest, CollectResponse, GatewayService, GatewayServiceExt, GreetRequest, GreetResponse,
 };
 
 /// Service-binding name in `wrangler.toml` for the upstream echo worker.
@@ -74,7 +72,7 @@ impl GatewayService for GatewayImpl {
     async fn greet(
         &self,
         _ctx: RequestContext,
-        request: OwnedView<GreetRequestView<'static>>,
+        request: ServiceRequest<'_, GreetRequest>,
     ) -> ServiceResult<GreetResponse> {
         let name = if request.name.is_empty() {
             "world"
@@ -102,7 +100,7 @@ impl GatewayService for GatewayImpl {
     async fn greet_via_do(
         &self,
         _ctx: RequestContext,
-        request: OwnedView<GreetRequestView<'static>>,
+        request: ServiceRequest<'_, GreetRequest>,
     ) -> ServiceResult<GreetResponse> {
         let name = if request.name.is_empty() {
             "world"
@@ -130,7 +128,7 @@ impl GatewayService for GatewayImpl {
     async fn collect_echoes(
         &self,
         _ctx: RequestContext,
-        request: OwnedView<CollectRequestView<'static>>,
+        request: ServiceRequest<'_, CollectRequest>,
     ) -> ServiceResult<CollectResponse> {
         let messages: Vec<EchoRequest> = request
             .messages

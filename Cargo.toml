@@ -21,7 +21,7 @@ exclude = ["examples/*"]
 
 [dependencies]
 worker = { version = "0.8", features = ["http"] }
-connectrpc = { version = "0.6", default-features = false }
+connectrpc = { version = "0.7", default-features = false }
 http = "1"
 http-body = "1"
 bytes = "1"
@@ -77,4 +77,4 @@ connectrpc-build = { version = "0.7" }
 opt-level = "z"
 lto = true
 codegen-units = 1
-strip = true
+strip = "debuginfo"
