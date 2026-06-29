@@ -1,5 +1,19 @@
 # connectrpc-workers Change Log
 
+## Version 0.4.0 - 2026-06-29
+
+- Bump `connectrpc` / `connectrpc-build` from 0.6 to 0.7 and `buffa` from 0.6
+  to 0.7.
+- Adopt the connectrpc 0.7 service-handler signature: handlers now receive
+  `ServiceRequest<'_, FooRequest>` instead of
+  `OwnedView<FooRequestView<'static>>`. Field access is unchanged; the
+  multi-worker example is updated to match.
+- `ClientConfig` now defaults to the Connect protocol, so
+  `.protocol(Protocol::Connect)` is no longer required — dropped from the
+  README and rustdoc examples.
+- Bump `worker` to 0.8.5 and refresh `http`, `bytes`, and other transitive
+  dependencies.
+
 ## Version 0.2.0 - 2026-05-06
 
 - Bump `connectrpc` dependency from 0.3 to 0.4 and `buffa` from 0.3 to 0.5.
