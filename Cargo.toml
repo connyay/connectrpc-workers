@@ -70,7 +70,7 @@ tower = { version = "0.5", features = ["util"] }
 
 wasm-bindgen = "0.2"
 
-connectrpc-build = { version = "0.7" }
+connectrpc-build = { version = "0.8" }
 
 # Profile tuned for shipping wasm: small + fast enough.
 [profile.release]
