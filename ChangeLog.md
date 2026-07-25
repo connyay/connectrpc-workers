@@ -1,5 +1,20 @@
 # connectrpc-workers Change Log
 
+## Version 0.5.0 - 2026-07-25
+
+- Bump `connectrpc` / `connectrpc-build` from 0.7 to 0.8 and `buffa` from 0.7
+  to 0.8.
+- connectrpc 0.8 moves the JSON codec behind a new `json` cargo feature, which
+  is part of `default`. Builds that set `default-features = false` — the usual
+  choice on `wasm32-unknown-unknown`, since it drops `zstd` and `streaming` —
+  now compile the JSON codec out, and the server answers `application/json`
+  requests with HTTP 415. Add `json` to the feature list to keep serving
+  Connect-over-JSON:
+
+  ```toml
+  connectrpc = { version = "0.8", default-features = false, features = ["gzip", "json"] }
+  ```
+
 ## Version 0.4.0 - 2026-06-29
 
 - Bump `connectrpc` / `connectrpc-build` from 0.6 to 0.7 and `buffa` from 0.6
