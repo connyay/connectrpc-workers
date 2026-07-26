@@ -69,7 +69,25 @@ dependencies = [
  "rustversion",
  "serde",
  "serde_json",
- "smoothutf8",
+ "smoothutf8 0.1.1",
+ "thiserror",
+]
+
+[[package]]
+name = "buffa"
+version = "0.9.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cf9e6224bc4ee1f189ad257120c156fb05f95b826f5369d620b24984476c200a"
+dependencies = [
+ "base64",
+ "bytes",
+ "foldhash",
+ "hashbrown",
+ "once_cell",
+ "rustversion",
+ "serde",
+ "serde_json",
+ "smoothutf8 0.2.3",
  "thiserror",
 ]
 
@@ -79,7 +97,7 @@ version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c6681b562b18ea719622d0d12684e88ecbdca600d517557dc7bcef7704631e28"
 dependencies = [
- "buffa",
+ "buffa 0.8.1",
  "buffa-descriptor",
  "prettyplease",
  "proc-macro2",
@@ -94,7 +112,7 @@ version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "57ed423c4ecec86d1500879ce42e7e5f6def01bc632985ac756c1fd723fa21fc"
 dependencies = [
- "buffa",
+ "buffa 0.8.1",
  "rustversion",
  "serde",
  "serde_json",
@@ -158,7 +176,7 @@ dependencies = [
  "async-compression",
  "async-trait",
  "base64",
- "buffa",
+ "buffa 0.8.1",
  "bytes",
  "flate2",
  "futures",
@@ -184,7 +202,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f8cdec2dacacd00437898dad38f98105c82d51086a78baa62cee6dc66c031070"
 dependencies = [
  "anyhow",
- "buffa",
+ "buffa 0.8.1",
  "buffa-codegen",
  "connectrpc-codegen",
  "tempfile",
@@ -197,7 +215,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "36c6e3bb62a4a77f41d5cd3d290a488bf529dc7e26b444cda67a3e5544c97542"
 dependencies = [
  "anyhow",
- "buffa",
+ "buffa 0.8.1",
  "buffa-codegen",
  "heck",
  "prettyplease",
@@ -241,7 +259,7 @@ dependencies = [
 name = "echo-do-worker"
 version = "0.1.0"
 dependencies = [
- "buffa",
+ "buffa 0.9.1",
  "connectrpc",
  "futures",
  "http",
@@ -256,7 +274,7 @@ dependencies = [
 name = "echo-worker"
 version = "0.1.0"
 dependencies = [
- "buffa",
+ "buffa 0.9.1",
  "connectrpc",
  "futures",
  "http",
@@ -400,7 +418,7 @@ dependencies = [
 name = "gateway-worker"
 version = "0.1.0"
 dependencies = [
- "buffa",
+ "buffa 0.9.1",
  "connectrpc",
  "connectrpc-workers",
  "http",
@@ -634,7 +652,7 @@ dependencies = [
 name = "multi-proto"
 version = "0.1.0"
 dependencies = [
- "buffa",
+ "buffa 0.9.1",
  "bytes",
  "connectrpc",
  "connectrpc-build",
@@ -854,6 +872,15 @@ name = "smoothutf8"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "36358427d32ecdb1624616deed99eccfef0a167fe5bf40ddb51efe6980bc1ec8"
+dependencies = [
+ "simdutf8",
+]
+
+[[package]]
+name = "smoothutf8"
+version = "0.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6b4ec95892483d6d94284caccfddb9b77111a4dcac33ed25d624248def0fa5f1"
 dependencies = [
  "simdutf8",
 ]

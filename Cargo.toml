@@ -57,7 +57,7 @@ worker-macros = { version = "0.8", features = ["http"] }
 # rejected with HTTP 415.
 connectrpc = { version = "0.8", default-features = false, features = ["gzip", "json"] }
 
-buffa = { version = "0.8", features = ["json"] }
+buffa = { version = "0.9", features = ["json"] }
 
 http = "1"
 http-body = "1"
