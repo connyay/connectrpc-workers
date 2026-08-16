@@ -75,7 +75,7 @@ jobs:
           shared-key: audit
           cache-directories: |
             ~/.cargo/advisory-db
-      - uses: taiki-e/install-action@v2.85.5
+      - uses: taiki-e/install-action@v2.85.13
         with:
           tool: cargo-audit
       - run: cargo audit --deny warnings
