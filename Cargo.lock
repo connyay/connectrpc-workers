@@ -49,7 +49,6 @@ version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "33f29a40702df4b86ccd84211bfde8cee0bce6d0811450ade4a86a7d0958a23a"
 dependencies = [
- "base64",
  "bytes",
  "foldhash",
  "hashbrown",
@@ -81,11 +80,11 @@ dependencies = [
 
 [[package]]
 name = "buffa-codegen"
-version = "0.8.1"
+version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c6681b562b18ea719622d0d12684e88ecbdca600d517557dc7bcef7704631e28"
+checksum = "2074a9c2f76b2ebe6af40f7bf67b6a19d6ce3663253ef2a55124dc93f38b230e"
 dependencies = [
- "buffa 0.8.1",
+ "buffa 0.9.1",
  "buffa-descriptor",
  "prettyplease",
  "proc-macro2",
@@ -96,11 +95,11 @@ dependencies = [
 
 [[package]]
 name = "buffa-descriptor"
-version = "0.8.1"
+version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "57ed423c4ecec86d1500879ce42e7e5f6def01bc632985ac756c1fd723fa21fc"
+checksum = "964d735e0b06cb24fa15a68c5aa99549abcc7e0bbeb76298f2fec57912fb79c1"
 dependencies = [
- "buffa 0.8.1",
+ "buffa 0.9.1",
  "rustversion",
  "serde",
  "serde_json",
@@ -194,12 +193,12 @@ dependencies = [
 
 [[package]]
 name = "connectrpc-build"
-version = "0.8.0"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f8cdec2dacacd00437898dad38f98105c82d51086a78baa62cee6dc66c031070"
+checksum = "603619f92fc55725d971ed9292855cd75f7a2c52ed66c181e0ec531dd7f8dd9b"
 dependencies = [
  "anyhow",
- "buffa 0.8.1",
+ "buffa 0.9.1",
  "buffa-codegen",
  "connectrpc-codegen",
  "tempfile",
@@ -207,12 +206,12 @@ dependencies = [
 
 [[package]]
 name = "connectrpc-codegen"
-version = "0.8.0"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "36c6e3bb62a4a77f41d5cd3d290a488bf529dc7e26b444cda67a3e5544c97542"
+checksum = "514a7a6fbe705d532ddf490c221db7bd52c5b94fd691cb257a7c18e5646355bb"
 dependencies = [
  "anyhow",
- "buffa 0.8.1",
+ "buffa 0.9.1",
  "buffa-codegen",
  "heck",
  "prettyplease",
