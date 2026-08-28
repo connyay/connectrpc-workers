@@ -15,18 +15,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2a4385e2e34eb35d6b3efe798b9eb88096925d87726c0798709bf56d9ed84af3"
 
 [[package]]
-name = "async-compression"
-version = "0.4.42"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e79b3f8a79cccc2898f31920fc69f304859b3bd567490f75ebf51ae1c792a9ac"
-dependencies = [
- "compression-codecs",
- "compression-core",
- "pin-project-lite",
- "tokio",
-]
-
-[[package]]
 name = "async-trait"
 version = "0.1.89"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -151,32 +139,40 @@ dependencies = [
 ]
 
 [[package]]
-name = "compression-codecs"
-version = "0.4.38"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ce2548391e9c1929c21bf6aa2680af86fe4c1b33e6cea9ac1cfeec0bd11218cf"
-dependencies = [
- "compression-core",
- "flate2",
- "memchr",
-]
-
-[[package]]
-name = "compression-core"
-version = "0.4.32"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cc14f565cf027a105f7a44ccf9e5b424348421a1d8952a8fc9d499d313107789"
-
-[[package]]
 name = "connectrpc"
 version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e4d1bbfc95ed1f4f31a027f5b97ff981be2617bc8a5c800fd6fcc701867bb97f"
 dependencies = [
- "async-compression",
  "async-trait",
  "base64",
  "buffa 0.8.1",
+ "bytes",
+ "futures",
+ "http",
+ "http-body",
+ "http-body-util",
+ "percent-encoding",
+ "pin-project",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "tokio",
+ "tokio-util",
+ "tower",
+ "tracing",
+ "wasm-bindgen-futures",
+]
+
+[[package]]
+name = "connectrpc"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "85de144722d22eb03b7985136d8cd29b89d277a2df4ae0f53ef46488c467cbaf"
+dependencies = [
+ "async-trait",
+ "base64",
+ "buffa 0.9.1",
  "bytes",
  "flate2",
  "futures",
@@ -187,6 +183,7 @@ dependencies = [
  "pin-project",
  "serde",
  "serde_json",
+ "sync_wrapper",
  "thiserror",
  "tokio",
  "tokio-util",
@@ -229,19 +226,10 @@ name = "connectrpc-workers"
 version = "0.5.0"
 dependencies = [
  "bytes",
- "connectrpc",
+ "connectrpc 0.8.1",
  "http",
  "http-body",
  "worker",
-]
-
-[[package]]
-name = "crc32fast"
-version = "1.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9481c1c90cbf2ac953f07c8d4a58aa3945c425b7185c9154d67a65e4230da511"
-dependencies = [
- "cfg-if",
 ]
 
 [[package]]
@@ -260,7 +248,7 @@ name = "echo-do-worker"
 version = "0.1.0"
 dependencies = [
  "buffa 0.9.1",
- "connectrpc",
+ "connectrpc 0.9.0",
  "futures",
  "http",
  "multi-proto",
@@ -275,7 +263,7 @@ name = "echo-worker"
 version = "0.1.0"
 dependencies = [
  "buffa 0.9.1",
- "connectrpc",
+ "connectrpc 0.9.0",
  "futures",
  "http",
  "multi-proto",
@@ -306,7 +294,6 @@ version = "1.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "843fba2746e448b37e26a819579957415c8cef339bf08564fe8b7ddbd959573c"
 dependencies = [
- "crc32fast",
  "miniz_oxide",
  "zlib-rs",
 ]
@@ -419,7 +406,7 @@ name = "gateway-worker"
 version = "0.1.0"
 dependencies = [
  "buffa 0.9.1",
- "connectrpc",
+ "connectrpc 0.9.0",
  "connectrpc-workers",
  "http",
  "multi-proto",
@@ -654,7 +641,7 @@ version = "0.1.0"
 dependencies = [
  "buffa 0.9.1",
  "bytes",
- "connectrpc",
+ "connectrpc 0.9.0",
  "connectrpc-build",
  "http",
  "http-body",
@@ -1002,6 +989,18 @@ checksum = "8fc7f01b389ac15039e4dc9531aa973a135d7a4135281b12d7c1bc79fd57fffe"
 dependencies = [
  "bytes",
  "pin-project-lite",
+ "tokio-macros",
+]
+
+[[package]]
+name = "tokio-macros"
+version = "2.7.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "78773a2a397f451582ce068015985c33193cf6dea8b74d2a639fe457b2f07b0e"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 3.0.2",
 ]
 
 [[package]]
