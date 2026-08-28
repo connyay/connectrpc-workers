@@ -55,7 +55,7 @@ worker-macros = { version = "0.8", features = ["http"] }
 # transports which we don't use, so leave it off. `json` is opt-in as of 0.8 —
 # without it the JSON codec is compiled out and `application/json` requests are
 # rejected with HTTP 415.
-connectrpc = { version = "0.8", default-features = false, features = ["gzip", "json"] }
+connectrpc = { version = "0.9", default-features = false, features = ["gzip", "json"] }
 
 buffa = { version = "0.8", features = ["json"] }
 

@@ -15,18 +15,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2a4385e2e34eb35d6b3efe798b9eb88096925d87726c0798709bf56d9ed84af3"
 
 [[package]]
-name = "async-compression"
-version = "0.4.42"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e79b3f8a79cccc2898f31920fc69f304859b3bd567490f75ebf51ae1c792a9ac"
-dependencies = [
- "compression-codecs",
- "compression-core",
- "pin-project-lite",
- "tokio",
-]
-
-[[package]]
 name = "async-trait"
 version = "0.1.89"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -69,7 +57,25 @@ dependencies = [
  "rustversion",
  "serde",
  "serde_json",
- "smoothutf8",
+ "smoothutf8 0.1.1",
+ "thiserror",
+]
+
+[[package]]
+name = "buffa"
+version = "0.9.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cf9e6224bc4ee1f189ad257120c156fb05f95b826f5369d620b24984476c200a"
+dependencies = [
+ "base64",
+ "bytes",
+ "foldhash",
+ "hashbrown",
+ "once_cell",
+ "rustversion",
+ "serde",
+ "serde_json",
+ "smoothutf8 0.2.3",
  "thiserror",
 ]
 
@@ -79,7 +85,7 @@ version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c6681b562b18ea719622d0d12684e88ecbdca600d517557dc7bcef7704631e28"
 dependencies = [
- "buffa",
+ "buffa 0.8.1",
  "buffa-descriptor",
  "prettyplease",
  "proc-macro2",
@@ -94,7 +100,7 @@ version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "57ed423c4ecec86d1500879ce42e7e5f6def01bc632985ac756c1fd723fa21fc"
 dependencies = [
- "buffa",
+ "buffa 0.8.1",
  "rustversion",
  "serde",
  "serde_json",
@@ -133,32 +139,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "compression-codecs"
-version = "0.4.38"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ce2548391e9c1929c21bf6aa2680af86fe4c1b33e6cea9ac1cfeec0bd11218cf"
-dependencies = [
- "compression-core",
- "flate2",
- "memchr",
-]
-
-[[package]]
-name = "compression-core"
-version = "0.4.32"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cc14f565cf027a105f7a44ccf9e5b424348421a1d8952a8fc9d499d313107789"
-
-[[package]]
 name = "connectrpc"
-version = "0.8.1"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e4d1bbfc95ed1f4f31a027f5b97ff981be2617bc8a5c800fd6fcc701867bb97f"
+checksum = "85de144722d22eb03b7985136d8cd29b89d277a2df4ae0f53ef46488c467cbaf"
 dependencies = [
- "async-compression",
  "async-trait",
  "base64",
- "buffa",
+ "buffa 0.9.1",
  "bytes",
  "flate2",
  "futures",
@@ -169,6 +157,7 @@ dependencies = [
  "pin-project",
  "serde",
  "serde_json",
+ "sync_wrapper",
  "thiserror",
  "tokio",
  "tokio-util",
@@ -184,7 +173,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f8cdec2dacacd00437898dad38f98105c82d51086a78baa62cee6dc66c031070"
 dependencies = [
  "anyhow",
- "buffa",
+ "buffa 0.8.1",
  "buffa-codegen",
  "connectrpc-codegen",
  "tempfile",
@@ -197,7 +186,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "36c6e3bb62a4a77f41d5cd3d290a488bf529dc7e26b444cda67a3e5544c97542"
 dependencies = [
  "anyhow",
- "buffa",
+ "buffa 0.8.1",
  "buffa-codegen",
  "heck",
  "prettyplease",
@@ -218,15 +207,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "crc32fast"
-version = "1.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9481c1c90cbf2ac953f07c8d4a58aa3945c425b7185c9154d67a65e4230da511"
-dependencies = [
- "cfg-if",
-]
-
-[[package]]
 name = "displaydoc"
 version = "0.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -241,7 +221,7 @@ dependencies = [
 name = "echo-do-worker"
 version = "0.1.0"
 dependencies = [
- "buffa",
+ "buffa 0.8.1",
  "connectrpc",
  "futures",
  "http",
@@ -256,7 +236,7 @@ dependencies = [
 name = "echo-worker"
 version = "0.1.0"
 dependencies = [
- "buffa",
+ "buffa 0.8.1",
  "connectrpc",
  "futures",
  "http",
@@ -288,7 +268,6 @@ version = "1.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "843fba2746e448b37e26a819579957415c8cef339bf08564fe8b7ddbd959573c"
 dependencies = [
- "crc32fast",
  "miniz_oxide",
  "zlib-rs",
 ]
@@ -400,7 +379,7 @@ dependencies = [
 name = "gateway-worker"
 version = "0.1.0"
 dependencies = [
- "buffa",
+ "buffa 0.8.1",
  "connectrpc",
  "connectrpc-workers",
  "http",
@@ -634,7 +613,7 @@ dependencies = [
 name = "multi-proto"
 version = "0.1.0"
 dependencies = [
- "buffa",
+ "buffa 0.8.1",
  "bytes",
  "connectrpc",
  "connectrpc-build",
@@ -859,6 +838,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "smoothutf8"
+version = "0.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6b4ec95892483d6d94284caccfddb9b77111a4dcac33ed25d624248def0fa5f1"
+dependencies = [
+ "simdutf8",
+]
+
+[[package]]
 name = "stable_deref_trait"
 version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -975,6 +963,18 @@ checksum = "8fc7f01b389ac15039e4dc9531aa973a135d7a4135281b12d7c1bc79fd57fffe"
 dependencies = [
  "bytes",
  "pin-project-lite",
+ "tokio-macros",
+]
+
+[[package]]
+name = "tokio-macros"
+version = "2.7.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "78773a2a397f451582ce068015985c33193cf6dea8b74d2a639fe457b2f07b0e"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 3.0.2",
 ]
 
 [[package]]
