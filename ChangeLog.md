@@ -1,5 +1,17 @@
 # connectrpc-workers Change Log
 
+## Version 0.6.0 - 2026-09-06
+
+- Bump `connectrpc` / `connectrpc-build` from 0.8 to 0.9 and `buffa` from 0.8
+  to 0.9. `FetcherTransport` and `FetchTransport` now implement the
+  connectrpc 0.9 `ClientTransport` trait, so downstream crates must be on
+  connectrpc 0.9 as well — mixing 0.8 and 0.9 in one dependency graph fails
+  with "the trait bound `FetcherTransport: ClientTransport` is not satisfied".
+- connectrpc 0.9 changes client-streaming calls to take a `Stream` of request
+  messages instead of a `Vec`. Wrap an in-hand collection with
+  `connectrpc::stream_iter(...)`; the multi-worker example's `CollectEchoes`
+  handler is updated to match.
+
 ## Version 0.5.0 - 2026-07-25
 
 - Bump `connectrpc` / `connectrpc-build` from 0.7 to 0.8 and `buffa` from 0.7
