@@ -45,23 +45,6 @@ checksum = "b4388bee8683e3d04af747c73422af53102d2bd24d9eadb6cbc100baef4b43f8"
 
 [[package]]
 name = "buffa"
-version = "0.8.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "33f29a40702df4b86ccd84211bfde8cee0bce6d0811450ade4a86a7d0958a23a"
-dependencies = [
- "bytes",
- "foldhash",
- "hashbrown",
- "once_cell",
- "rustversion",
- "serde",
- "serde_json",
- "smoothutf8 0.1.1",
- "thiserror",
-]
-
-[[package]]
-name = "buffa"
 version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf9e6224bc4ee1f189ad257120c156fb05f95b826f5369d620b24984476c200a"
@@ -74,7 +57,7 @@ dependencies = [
  "rustversion",
  "serde",
  "serde_json",
- "smoothutf8 0.2.3",
+ "smoothutf8",
  "thiserror",
 ]
 
@@ -84,7 +67,7 @@ version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2074a9c2f76b2ebe6af40f7bf67b6a19d6ce3663253ef2a55124dc93f38b230e"
 dependencies = [
- "buffa 0.9.1",
+ "buffa",
  "buffa-descriptor",
  "prettyplease",
  "proc-macro2",
@@ -99,7 +82,7 @@ version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "964d735e0b06cb24fa15a68c5aa99549abcc7e0bbeb76298f2fec57912fb79c1"
 dependencies = [
- "buffa 0.9.1",
+ "buffa",
  "rustversion",
  "serde",
  "serde_json",
@@ -139,39 +122,13 @@ dependencies = [
 
 [[package]]
 name = "connectrpc"
-version = "0.8.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e4d1bbfc95ed1f4f31a027f5b97ff981be2617bc8a5c800fd6fcc701867bb97f"
-dependencies = [
- "async-trait",
- "base64",
- "buffa 0.8.1",
- "bytes",
- "futures",
- "http",
- "http-body",
- "http-body-util",
- "percent-encoding",
- "pin-project",
- "serde",
- "serde_json",
- "thiserror",
- "tokio",
- "tokio-util",
- "tower",
- "tracing",
- "wasm-bindgen-futures",
-]
-
-[[package]]
-name = "connectrpc"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "85de144722d22eb03b7985136d8cd29b89d277a2df4ae0f53ef46488c467cbaf"
 dependencies = [
  "async-trait",
  "base64",
- "buffa 0.9.1",
+ "buffa",
  "bytes",
  "flate2",
  "futures",
@@ -198,7 +155,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "603619f92fc55725d971ed9292855cd75f7a2c52ed66c181e0ec531dd7f8dd9b"
 dependencies = [
  "anyhow",
- "buffa 0.9.1",
+ "buffa",
  "buffa-codegen",
  "connectrpc-codegen",
  "tempfile",
@@ -211,7 +168,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "514a7a6fbe705d532ddf490c221db7bd52c5b94fd691cb257a7c18e5646355bb"
 dependencies = [
  "anyhow",
- "buffa 0.9.1",
+ "buffa",
  "buffa-codegen",
  "heck",
  "prettyplease",
@@ -225,7 +182,7 @@ name = "connectrpc-workers"
 version = "0.5.0"
 dependencies = [
  "bytes",
- "connectrpc 0.8.1",
+ "connectrpc",
  "http",
  "http-body",
  "worker",
@@ -246,8 +203,8 @@ dependencies = [
 name = "echo-do-worker"
 version = "0.1.0"
 dependencies = [
- "buffa 0.9.1",
- "connectrpc 0.9.0",
+ "buffa",
+ "connectrpc",
  "futures",
  "http",
  "multi-proto",
@@ -261,8 +218,8 @@ dependencies = [
 name = "echo-worker"
 version = "0.1.0"
 dependencies = [
- "buffa 0.9.1",
- "connectrpc 0.9.0",
+ "buffa",
+ "connectrpc",
  "futures",
  "http",
  "multi-proto",
@@ -404,8 +361,8 @@ dependencies = [
 name = "gateway-worker"
 version = "0.1.0"
 dependencies = [
- "buffa 0.9.1",
- "connectrpc 0.9.0",
+ "buffa",
+ "connectrpc",
  "connectrpc-workers",
  "http",
  "multi-proto",
@@ -638,9 +595,9 @@ dependencies = [
 name = "multi-proto"
 version = "0.1.0"
 dependencies = [
- "buffa 0.9.1",
+ "buffa",
  "bytes",
- "connectrpc 0.9.0",
+ "connectrpc",
  "connectrpc-build",
  "http",
  "http-body",
@@ -852,15 +809,6 @@ name = "smallvec"
 version = "1.15.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ed6a63f02c8539c91a8685a86f4099661ba3da017932f6ebbea6de3f0fa7c90"
-
-[[package]]
-name = "smoothutf8"
-version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "36358427d32ecdb1624616deed99eccfef0a167fe5bf40ddb51efe6980bc1ec8"
-dependencies = [
- "simdutf8",
-]
 
 [[package]]
 name = "smoothutf8"

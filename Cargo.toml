@@ -21,7 +21,7 @@ exclude = ["examples/*"]
 
 [dependencies]
 worker = { version = "0.8", features = ["http"] }
-connectrpc = { version = "0.8", default-features = false }
+connectrpc = { version = "0.9", default-features = false }
 http = "1"
 http-body = "1"
 bytes = "1"

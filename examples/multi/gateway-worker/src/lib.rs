@@ -139,10 +139,11 @@ impl GatewayService for GatewayImpl {
             })
             .collect();
 
-        let upstream =
-            self.echo.collect(messages).await.map_err(|e| {
-                ConnectError::unavailable(format!("upstream collect call failed: {e}"))
-            })?;
+        let upstream = self
+            .echo
+            .collect(connectrpc::stream_iter(messages))
+            .await
+            .map_err(|e| ConnectError::unavailable(format!("upstream collect call failed: {e}")))?;
 
         let response = upstream.into_owned();
         Response::ok(CollectResponse {
