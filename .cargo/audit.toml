@@ -1,0 +1,6 @@
+[advisories]
+ignore = [
+    # chrono is unmaintained (no patched version). It's pulled in by `worker`,
+    # so it can't be dropped until workers-rs moves off it.
+    "RUSTSEC-2026-0543",
+]
