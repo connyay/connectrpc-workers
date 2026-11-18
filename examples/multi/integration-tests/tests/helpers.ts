@@ -12,6 +12,18 @@ export interface TransportOptions {
   useBinaryFormat?: boolean;
 }
 
+/** connect-web always calls `fetch(url: string, init)`. */
+type MiniflareFetch = (
+  input: string,
+  init?: Parameters<typeof mf.dispatchFetch>[1],
+) => ReturnType<typeof mf.dispatchFetch>;
+
+/** Miniflare types Request/Response with its own bundled undici, which
+ *  TypeScript treats as unrelated to Node's global fetch types even though
+ *  connect-web only uses the shared runtime shape. */
+const asGlobalFetch = (fetcher: MiniflareFetch) =>
+  fetcher as unknown as typeof globalThis.fetch;
+
 function transportFor(
   opts: TransportOptions = {},
   fetchFn?: typeof globalThis.fetch,
@@ -20,9 +32,7 @@ function transportFor(
     baseUrl: mfUrl,
     useBinaryFormat: opts.useBinaryFormat ?? true,
     fetch:
-      fetchFn ??
-      (((input, init) =>
-        mf.dispatchFetch(input as string, init)) as typeof globalThis.fetch),
+      fetchFn ?? asGlobalFetch((input, init) => mf.dispatchFetch(input, init)),
   });
 }
 
@@ -46,6 +56,5 @@ export const echoDoClient = (opts?: TransportOptions) =>
   clientFor(
     EchoService,
     opts,
-    ((input, init) =>
-      echoDoWorker.fetch(input as string, init)) as typeof globalThis.fetch,
+    asGlobalFetch((input, init) => echoDoWorker.fetch(input, init)),
   );

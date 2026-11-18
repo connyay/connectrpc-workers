@@ -2,7 +2,7 @@
 name = "connectrpc-workers"
 version = "0.6.0"
 edition = "2024"
-rust-version = "1.88"
+rust-version = "1.91"
 authors = ["Connor Hindley <conn.hindley@gmail.com>"]
 description = "ConnectRPC ClientTransport implementations backed by the Cloudflare Workers fetch APIs (service bindings + global fetch)."
 documentation = "https://docs.rs/connectrpc-workers"
@@ -20,7 +20,7 @@ license = "MIT"
 exclude = ["examples/*"]
 
 [dependencies]
-worker = { version = "0.8", features = ["http"] }
+worker = { version = "0.9", features = ["http"] }
 connectrpc = { version = "0.9", default-features = false }
 http = "1"
 http-body = "1"
@@ -46,8 +46,8 @@ connectrpc-workers = { path = "." }
 multi-proto = { path = "examples/multi/proto-crate" }
 
 # Cloudflare Workers
-worker = { version = "0.8", features = ["http"] }
-worker-macros = { version = "0.8", features = ["http"] }
+worker = { version = "0.9", features = ["http"] }
+worker-macros = { version = "0.9", features = ["http"] }
 
 # ConnectRPC. `default-features = false` drops `zstd` + `streaming` (C bindings
 # / platform bits that won't link on wasm32-unknown-unknown). `gzip` stays —
