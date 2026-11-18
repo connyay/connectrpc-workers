@@ -1,5 +1,19 @@
 # connectrpc-workers Change Log
 
+## Version 0.7.0 - 2026-11-17
+
+- Bump `worker` from 0.8 to 0.9. `FetcherTransport` wraps a `worker::Fetcher`,
+  so downstream crates must move to `worker` 0.9 as well; mixing 0.8 and 0.9
+  in one dependency graph produces mismatched `Fetcher` types.
+- Raise the MSRV from 1.88 to 1.91, which `worker` 0.9 requires.
+- Update `worker-build` to ^0.9 in the example wrangler configs.
+- Move the multi-worker integration tests to miniflare 5 and vitest 5.
+- Refresh the lockfile for security advisories: `connectrpc` 0.9.1
+  (RUSTSEC-2026-0304), `tokio` 1.54.1 (RUSTSEC-2026-0386), and `rustix` 1.1.6
+  (RUSTSEC-2026-0486). RUSTSEC-2026-0543 (`chrono` unmaintained) is ignored in
+  `.cargo/audit.toml`; it has no patched release and comes in through
+  `worker`.
+
 ## Version 0.6.0 - 2026-09-06
 
 - Bump `connectrpc` / `connectrpc-build` from 0.8 to 0.9 and `buffa` from 0.8
